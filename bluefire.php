@@ -2,7 +2,7 @@
 /*
 Plugin Name: WooCommerce BlueFire Payment Module
 Description: BlueFire Donations Payment
-Version: 0.3
+Version: 0.4
 Author: BlueFire
 Author URI: https://gobluefire.com/
 */
@@ -36,6 +36,8 @@ function init_bluefire() {
 			$this->secret_key = $this->settings['secret_key'];
 			$this->host_url = $this->settings['host_url'];
 			$this->success_url = $this->settings['success_url'];
+			$this->fund_name = $this->settings['fund_name'];
+			$this->fund_number = $this->settings['fund_number'];
 			
 			// Actions
 			add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
@@ -101,6 +103,20 @@ function init_bluefire() {
 				    'description' => __( 'For example, http://yourdomain.com/thank-you. If a page doesn\'t exist, create one.', 'woothemes' ),
 				    'default' => __( '' , 'woothemes' )
 				),
+
+				'fund_name' => array(
+					'title' => __( 'Default Fund Name', 'woothemes' ),
+					'type' => 'text',
+					'description' => __( 'All transactions in BlueFire will appear under this fund.', 'woothemes'),
+					'default' => __( get_bloginfo('blog_name'), 'woothemes' )
+				),
+
+				'fund_number' => array(
+					'title' => __( 'Default Fund Number', 'woothemes' ),
+					'type' => 'text',
+					'description' => __( 'Fund number that will be applied to all transactions in BlueFire.', 'woothemes' ),
+					'default' => __( '', 'woothemes' )
+				),
 			);
 			
 		}
@@ -155,6 +171,8 @@ function init_bluefire() {
 			
 			$formKey = $this->form_key;
 			$secKey = $this->secret_key;
+			$fundName = $this->fund_name;
+			$fundNumber = $this->fund_number;
 			
 			$getArray = array(
 				'rid' => $formKey,
@@ -163,7 +181,8 @@ function init_bluefire() {
 				'time' => mktime(),
 				/*'clientIp' => $_SERVER['SERVER_ADDR'],*/
 				'redirect' => $redirect,
-				'descrip' => get_bloginfo('blog_name')
+				'descrip' => $fundName,
+				'fundNumber' => $fundNumber,
 			);
 			
 			$hostURL = $this->host_url;
