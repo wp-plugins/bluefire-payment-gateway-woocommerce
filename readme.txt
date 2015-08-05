@@ -29,3 +29,8 @@ e.g.
 3. Go to WooCommerce > Settings > Checkout > BlueFire to enter necessary details (Form RID, API Key, etc).
 
 Please contact us at support@gobluefire.com if you experience any trouble with installation. 
+
+== Changelog ==
+ 
+= 0.04 =
+* Add default fund names and number for BlueFire.
